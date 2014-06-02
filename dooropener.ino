@@ -1,5 +1,6 @@
 /*
 Door Opener
+Detects daylight and opens a door
 by Eric Rouse
 */
 
@@ -9,6 +10,8 @@ int daylightPin = 4;
 int daydetectPin = 11;
 int spr = 1600; //steps per rev
 bool door_open = false;
+bool m_fwd = true;
+bool m_rev = false;
 
 void setup()
 {
@@ -34,20 +37,20 @@ void step(boolean dir, int steps)
 void loop()
 {
 
-  //if it's daylight, open the door
-  if (digitalRead(daylightPin) == HIGH){
+  //if it's daylight and the door isn't open, open the door
+  if (digitalRead(daylightPin) == LOW && door_open == false){
     digitalWrite(daydetectPin, HIGH);
-    step(true,spr*5);
+    step(m_fwd,spr*5);
     door_open = true;
   }
-  //if it isn't daylight and the door isn't open, shut the door
-  if(digitalRead(daylightPin) == LOW && door_open == true){
+  //if it isn't daylight and the door is open, shut the door
+  if(digitalRead(daylightPin) == HIGH && door_open == true){
     digitalWrite(daydetectPin, LOW);
-    step(false,spr*5);
+    step(m_rev,spr*5);
     door_open = false;    
   }
 
-  
+  //only check every half hour or so
   delay(1000);
 
 }
