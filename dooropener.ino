@@ -66,7 +66,7 @@ void loop()
   }
 
   //only check every half hour or so
-  //delay(1800000);
+  delay(1800000);
   
   
 }
