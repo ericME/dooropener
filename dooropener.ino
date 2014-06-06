@@ -6,8 +6,8 @@ Designed for a chicken coop, but could really be for anything.
 by Eric Rouse
 */
 
-int dirPin = 7;
-int stepPin = 10;
+int dirPin = 4;
+int stepPin = 3;
 int daylightPin = 4;
 int lightDetectedPin = 11;
 int spr = 1600; //steps per rev
@@ -42,7 +42,7 @@ void loop()
 {
 
   //if it is daylight and the door isn't open, open the door
-  if (digitalRead(daylightPin) == LOW && door_open == false){
+  if (door_open == false){
     digitalWrite(lightDetectedPin, HIGH);
     step(m_fwd,spr*fwd_revs);
     door_open = true;
@@ -58,17 +58,16 @@ void loop()
       delay(500);
     }
   }
-  delay(1000);
+  delay(5000);
   
   //if it isn't daylight and the door is open, shut the door
-  if(digitalRead(daylightPin) == HIGH && door_open == true){
+  if(digitalRead(door_open == true)){
     digitalWrite(lightDetectedPin, LOW);
     step(m_rev,spr*rev_revs);
     door_open = false;
     
   }
 
-  //only check every half hour or so 1800000
-  //delay(1800000);
+  delay(5000);
 
 }
