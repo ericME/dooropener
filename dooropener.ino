@@ -77,7 +77,6 @@ void loop()
     step(m_rev,spr*rev_revs, rev_speed);
     door_open = false;
     
-    
   }
 
   //only check every half hour or so
