@@ -5,18 +5,30 @@ Detects daylight and opens a door
 Designed for a chicken coop, but could really be for anything.
 by Eric Rouse
 */
-
+//declare vars
+//direction pin
 int dirPin = 4;
+//step pin
 int stepPin = 3;
+//event that opens the door
+//in this case, daylight detected
 int daylightPin = 8;
+//signify detection occured by turning
+//on the on-board led
 int lightDetectedPin = 13;
-int spr = 1600; //steps per rev
-int val = 0;
+//stepper motor steps per revolution
+int spr = 1600;
+//number of revolutions to open
 float fwd_revs = 5.5;
+//number of revolutions to close
 float rev_revs = 4.5;
+//opening speed
 int fwd_speed = 450;
+//closing speed
 int rev_speed = 100;
+//door status flag
 bool door_open = false;
+//pin status for open/close
 bool m_fwd = true;
 bool m_rev = false;
 
@@ -32,10 +44,13 @@ void setup()
 
 void step(boolean dir, int steps, int stepDelay)
 {
+  //sanitze inputs
   if (stepDelay < 80) stepDelay = 80;
   if (stepDelay > 5000) stepDelay = 5000;
+  //set direction
   digitalWrite(dirPin, dir);
   delay(50);
+  //step
   for (int i=0;i<steps;i++){
     digitalWrite(stepPin, HIGH);
     delayMicroseconds(stepDelay);
