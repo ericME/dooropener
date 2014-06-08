@@ -10,6 +10,8 @@ by Eric Rouse
 int dirPin = 4;
 //step pin
 int stepPin = 3;
+//sleep pin
+int sleepPin = 7;
 //event that opens the door
 //in this case, daylight detected
 int daylightPin = 8;
@@ -29,8 +31,8 @@ int rev_speed = 100;
 //door status flag
 bool door_open = false;
 //pin status for open/close
-bool m_fwd = true;
-bool m_rev = false;
+bool m_fwd = HIGH;
+bool m_rev = LOW;
 
 void setup()
 {
@@ -38,6 +40,7 @@ void setup()
   pinMode(stepPin, OUTPUT);
   pinMode(daylightPin, INPUT);
   pinMode(lightDetectedPin,OUTPUT);
+  pinMode(sleepPin, OUTPUT);
   Serial.begin(9600);
 
 }
@@ -47,6 +50,8 @@ void step(boolean dir, int steps, int stepDelay)
   //sanitze inputs
   if (stepDelay < 80) stepDelay = 80;
   if (stepDelay > 5000) stepDelay = 5000;
+  //turn on motor
+  digitalWrite(sleepPin, HIGH);
   //set direction
   digitalWrite(dirPin, dir);
   delay(50);
@@ -57,6 +62,7 @@ void step(boolean dir, int steps, int stepDelay)
     digitalWrite(stepPin, LOW);
     delayMicroseconds(stepDelay);
   }
+  digitalWrite(sleepPin, LOW);
 }
 
 void loop()
@@ -79,7 +85,7 @@ void loop()
     
   }
 
-  //only check every half hour or so
+  //only check every half hour (1800000ms) or so
   delay(1800000);
   
   
